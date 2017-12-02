@@ -1,0 +1,90 @@
+<div class="bgfaf9f9" ng-controller="auth_Controller">
+	<div class="view-body-title">
+		<button class="op-div-but mt12" ng-click="window_add();openwindow()">
+			<i class="icon-add icon-small"></i>
+		    添加认证
+		</button>
+	</div>
+	<div class="view-body bgf4f4f4" >
+		<ul class="li-2">
+			<li ng-repeat="m in datalist">
+				<div class="title">
+					<span class="key">应用名称</span><span class="val colore51c23">{{m.appName}}</span><span class="edit"><i class="icon-edit icon-small" ng-click="window_edit(m.pk,m.appName,m.appId,m.appSecret,m.callbackUrl);openwindow()"></i><i class="icon-del icon-small" ng-click="openwindow2();getdel(m.pk);"></i></span>
+				</div>
+				<div class="line">
+					<span class="key">认证类型</span><span class="val">{{m.authType}}</span>
+				</div>
+				<div class="line">
+					<span class="key">AppID</span><span class="val">{{m.appId}}</span>
+				</div>
+				<div class="line">
+					<span class="key">AppSecret</span><span class="val">{{m.appSecret}}</span>
+				</div>
+				<div class="line">
+					<span class="right-val">
+		                <label  class="checkbox mt3"  for="ka_checkbox{{$index}}">
+		                   	<div ng-class="active(m.isActive)">
+		                   		<em></em>
+		                       	<input id="ka_checkbox{{$index}}" ng-change="activeclick(m.pk)" ng-model="checkmod" type="checkbox" checked=""><span></span>
+		                   	</div>
+		                </label>
+		            </span>
+		            <span class="right-key">是否启用</span>
+		        </div>
+			</li>			
+		</ul>
+		<div class="page">
+			
+				<a ng-click="frash(prewPage)">上一页</>
+				<a ng-repeat="i in pageshow" ng-click="frash(i)" ng-class="pagesel(i)">{{i}}</a>
+				<a ng-click="frash(nextPage)">下一页</a>
+				<span>每页显示<select id="pagesize1" ng-model="pageSize" ng-init="pageSize = pageSizeSelect[0]" ng-change="changePageSize(pageSize)" ng-options="x for x in pageSizeSelect"></select></span>
+			
+		</div>
+
+</div>
+
+<div class="window" ng-show="window">
+	<div class="window-bg" ng-click="cancel();hidetip();"></div>
+    <div class="window-middle t15p">
+    	<div class="window-title">
+            	<span class="title">{{window_title}}</span>
+                <span class="close">
+                   	<i class="icon-close icon-small pointer" ng-click="cancel();hidetip();"></i>
+                </span>
+        </div>
+        <div class="window-body">
+        	<ul class="window-table">
+				<li ng-show="tip"><input type="hidden" ng-model="pk" ng-value="pk"></li>
+				<li ng-show="tip" class="tip">每个外部应用都需要注册一个AppID和AppSecret，用于进行accesstoken</li>
+				<li><span>应用名称<font class="colore51c23">*</font></span></li>
+				<li><input type="text" placeholder="请输入应用名称" ng-model="appName" ng-value="appName"><i class="icon-question icon-middle mt6 ml9 pointer" ng-click="showtip()"></i></li>
+				<li><span>AppID<font class="colore51c23">*</font></span></li>
+				<li><input type="text"  class="bgf4f4f4" ng-model="appId" ng-value="appId"></li>
+				<li><span>AppSecret<font class="colore51c23">*</font></span></li>
+				<li><input type="text"  class="bgf4f4f4" ng-model="appSecret" ng-value="appSecret"></li>
+				<li><span>回调地址<font class="colore51c23">*</font></span></li>
+				<li><input type="text" placeholder="请输入回调地址" ng-model="callbackUrl" ng-value="callbackUrl"></li>
+        	</ul>
+        </div>
+        <div class="window-footer tr">            
+            	<button  class="save mr10" ng-click="save();hidetip();">保存</button>
+                <button  class="cancel mr10" ng-click="cancel();hidetip();">取消</button>           
+        </div>
+    </div>
+</div>
+<div class="window" ng-show="window2">
+	<div class="window-bg" ng-click="cancel2()"></div>
+    <div class="window-small t15p">
+    	<div class="window-title">
+            	<span class="title">确定要删除吗？</span>
+                <span class="close">
+                   	<i class="icon-close icon-small pointer" ng-click="cancel2()"></i>
+                </span>
+        </div>
+        <div class="window-footer tr"> <input type="hidden" ng-model="delpk" ng-value="delpk">           
+            	<button  class="save mr10" ng-click="del()">确定</button>
+                <button  class="cancel mr10" ng-click="cancel2()">取消</button>           
+        </div>
+    </div>
+</div>

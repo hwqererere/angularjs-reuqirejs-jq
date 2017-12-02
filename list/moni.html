@@ -1,0 +1,151 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta charset="utf-8"/>
+    <meta name="viewport" content="user-scalable=no, width=device-width" />
+<title>模拟页面</title>
+<script type="text/javascript" src="js/jquery-2.1.1.js"></script>
+<style type="text/css">
+.button{border:1px solid #999;padding:2em;background: #00f;color:#fff;width:6em;margin-bottom:1em; }
+textarea{width:90%;border:1px solid #909090;height:40em;}
+</style>
+</head>
+<body>
+<section class="button" id="sendpicmsg">发送图文消息</section>
+<section id="picmsg"></section>
+
+<section class="button" id="sendmodmsg">发送模板消息</section>
+<section id="modmsg"></section>
+
+</body>
+<script type="text/javascript">
+var accessToken=getaccesstoken();
+
+$("#sendpicmsg").click(function(){
+    var sendbut="pic";
+    var infoshow="picmsg";
+	var da={};
+
+    da.operatorId=GetQueryString("operatorId");
+    da.chatId=GetQueryString("chatId");
+    da.visitorId=GetQueryString("visitorId");
+    da.pluginId=GetQueryString("pluginId");
+    da.businessId=GetQueryString("businessId")?GetQueryString("businessId"):Math.random()*1000000000000000000+"";;
+    var art=new Array();
+    art[0]={};
+    art[0].title="title";
+    art[0].summary="summary";
+    art[0].url="http://192.168.11.202:6926/test/moni.html";
+    art[0].picUrl="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3965705221,2010595691&fm=27&gp=0.jpg";
+    var content={};
+    content.msgType="news";
+    content.articles=art;
+    da.content=content;
+    var sendmsg=JSON.stringify(da);
+	ajax(sendbut,sendmsg,infoshow);
+});
+$("#sendmodmsg").click(function(){
+    var sendbut="template";
+    var infoshow="modmsg";
+	var da={};
+
+    da.operatorId=GetQueryString("operatorId");
+    da.chatId=GetQueryString("chatId");
+    da.visitorId=GetQueryString("visitorId");
+    da.pluginId=GetQueryString("pluginId");
+    da.businessId=GetQueryString("businessId")?GetQueryString("businessId"):Math.random()*1000000000000000000+"";;
+    var template=new Array();
+    template={};
+    template.templateId="test";
+    template.templateSummary="mode1";
+    var templateParams={};
+    templateParams.field1="filed1";
+    templateParams.field2="filed2";
+    templateParams.field3="filed3";
+    template.templateParams=templateParams;    
+
+    var content={};
+    content.msgType="template";
+    content.template=template;
+    da.content=content;
+    var sendmsg=JSON.stringify(da);    
+	ajax(sendbut,sendmsg,infoshow);
+});
+
+function ajax(sendbut,sendmsg,infoshow){
+	if(sendbut=="pic"){
+		url="http://192.168.11.202:6060/plugin_open/openPlatform/sendNewsMessage?accessToken="+accessToken;
+	}else{
+		url="http://192.168.11.202:6060/plugin_open/openPlatform/sendTemplateMessage?accessToken="+accessToken;
+	}
+    alert(sendmsg);
+    console.log(sendmsg);
+	$.ajax({  
+        type : "POST", 
+        url : url,
+        data : sendmsg,  
+        async: false, 
+        contentType: "application/json",  
+        // dataType: "json",
+        crossDomain: true,
+        cache: false,  
+        success : function(result) {
+            resultoutput(result,infoshow);
+        },error:function(XMLHttpRequest, textStatus, errorThrown){
+            alert(XMLHttpRequest.status);
+                        alert(XMLHttpRequest.readyState);
+                        alert(textStatus);
+        	// resultoutput("error",infoshow);
+        }
+    });  
+}
+function resultoutput(result,infoshow){
+     $("#"+infoshow).html("发送完成，5秒后删除本消息");
+            setTimeout(function(){
+                $("#"+infoshow).html(result.msg);
+                setTimeout(function(){
+                    $("#"+infoshow).html("");
+                },5000);
+            },5000);
+}
+function GetQueryString(name){//url参数获取
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+
+function getaccesstoken(){
+    var rt="";
+    var obj={};
+    obj.appId="123";
+    obj.appSecret="123456";
+    var sendmsg=JSON.stringify(obj); 
+  $.ajax({  
+        type : "POST", 
+        url : "http://192.168.11.202:6060/plugin_open/auth/getAccessToken",
+        data : sendmsg,  
+        async: false, 
+        contentType: "application/json",  
+        // dataType: "json",
+        crossDomain: true,
+        cache: false,  
+        success : function(result) {
+            rt=result.data.accessToken;
+        },error:function(XMLHttpRequest, textStatus, errorThrown){
+            setTimeout(function(){
+                getaccesstoken();
+            },30000);
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+            // resultoutput("error",infoshow);
+        }
+    });  
+    return rt; 
+}
+/*
+{"accessToken":"aaa","operatorId":"11","businessId":22,"chatId":33,"visitorId":44,"pluginId":55,"content":[{"msgType":"template","template":{"templateId":"123123","filed1":"Is Really A Happy Day","filed2":"Is Really A Happy Day","filed3":"Is Really A Happy Day"," msgUrl":"URL"," coverUrl ":"PIC_URL"}}]}
+
+
+ */
+</script>
+</html>

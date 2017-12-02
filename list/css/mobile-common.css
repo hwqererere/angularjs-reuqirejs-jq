@@ -1,0 +1,25 @@
+body{margin:0px;padding:0px;background:#f7f7f7}
+.list{width:100%;float:left;}
+.li{width:96%;float:left;margin-top:1em;background: #fff;padding:2%;padding-top:1em;padding-bottom:1em;}
+.li:first-child{}
+.se-info{width:100%;border-bottom: 1px solid #999;padding-top:1em;padding-bottom:1em;float:left;}
+.se-img{float:left;width:25%;background-repeat: no-repeat;height:8em;}
+
+.se-word{float:right;width:75%;}
+.se-title{white-space:nowrap; overflow:hidden;text-indent:1em;text-overflow:ellipsis;color:#2f3636; font-weight: bold;width:95%;height:2em;padding-left:5%;font-size:1em;}
+.se-keyword{width:95%;padding-left:5%;font-size:0.8em;text-indent: 1em;color:#676767;}
+.se-link{width:100%;float:left;height: 1.4em;}
+.se-link a{float:right;line-height: 3em;font-size:0.8em;margin-right:3%;text-decoration: none;color:#13a2d8;}
+.se-link a:visited{color:#13a2d8;}
+
+.searchbar{width:100%;float:left;height:4em;text-align: center;}
+.searchbar input[type="submit"]{display: none;}
+.searchbar input[type="text"]{width:96%;border-radius:0.3em;margin-top:0.2em;height:1em;line-height: 3.6em;border:1px solid #676767;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeAQMAAAAB/jzhAAAABlBMVEUAAAB8fHwitSMWAAAAAXRSTlMAQObYZgAAAGJJREFUCNddzSEOgDAQRNFPEMhaXC9C2mshmqZHI+EiRWErKwgLIzCYJ3Z2dyACg1WYrIGzDv64NM8QFCc8rLjyMhW6aH++QHskkXUWCeDLrc+mDiuMdm5ge1VzA+giiUXMD3YoJixGJbgIAAAAAElFTkSuQmCC) 1% center no-repeat #fff;text-indent: 1.5em;font-size: 2em;}
+.opebg{width:100%;height:100%;background: #000;opacity: 0.8;position: fixed;left: 0%;top:0%;display: none;z-index: 99;}
+.msgbox{position: fixed;z-index:999;height:15em;width:16em;left:50%;top:20%;margin-left: -9em;border-radius: 1em;background: #fff;display: none;padding:1em;}
+.msgbox-title{width:96%;float:left;margin-left:2%;font-size:2em;color:#363636;}
+.msgbox-body{width:90%;float:left;margin-left:10%;font-size:1em;color:#727272;line-height: 6em;height:6em;}
+.msgbox-infotitle{white-space:nowrap; overflow:hidden;text-overflow:ellipsis;width:96%;background:#f8f8f8;width:96%;margin-left:2%;border-radius:0.2em;height:2.5em;line-height:2.5em;font-size:1em;text-indent:0.3em;}
+.msgbox-but{width:96%;float:left;margin-left:2%;margin-top:1.5em;}
+.sure{float:right;border-radius: 0.3em;color:#fff;background-color: #197fa5;padding:0.4em 1em;font-size: 1em;}
+.cancel{float: right;border-radius: 0.3em;color:#aaa;border:1px solid #aaaaaa;background:#fff;padding:0.4em 1em;font-size: 1em;margin-right:1em;}

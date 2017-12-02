@@ -1,0 +1,168 @@
+<div class="bgfaf9f9" ng-controller="appPlugin_Controller">
+	<div class="view-body-title">
+        <span class="title">APP插件</span>
+	</div>
+
+	<div class="view-body mt12" >
+		<div class="left-3-4 bgf4f4f4">
+			<div class="view-body ">
+				<div class="view-body-title" ng-model="pk"><span class="left">插件编辑</span>
+					<span class="right" ng-click="openwindow2()">删除插件</span>
+				</div>
+				<div class="app-view-body mt12">
+					<div class="app-lileft"><span>插件名称:<font class="colore51c23">*</font></span></div>
+					<div class="app-liright"><input type="text" class="input" ng-model="pluginName" ng-value="pluginName" ><span class="input ml9 pl5 pr5 colore51c23" ng-click="openwindow()">复制已有插件</span></div>
+				</div>
+				<div class="app-view-body mt12">
+					<div class="app-lileft"><span>插件图标<font class="colore51c23">*</font>:</span></div>
+					<div class="app-liright"><label><span class="input pl5 pr5 colore51c23">选择文件</span><input type="file" class="displaynone" ></label><span class="tips"></span></div>
+				</div>
+				<div class="view-body-titlenb"><span class="left">消息插件</span></div>
+				<div class="app-view-body">
+					<div class="app-lileft"><span>插件类型:</span></div>
+						<div class="app-liright">
+							<label ng-click="box(1)"><input type="radio" name="plugtype" ng-model="pluginType"  ng-checked="boxcheck('pushMsg')">发送消息</label>
+							<label ng-click="box(2)"><input type="radio" name="plugtype" ng-model="pluginType"  ng-checked="boxcheck('jumpPage')">跳转网页</label>
+							<label ng-click="box(3)"><input type="radio" name="plugtype" ng-model="pluginType"  ng-checked="boxcheck('jumpTemplate')">跳转模板页面</label>
+						</div>
+					</div>
+				
+				<div class="app-view-body bgffffff pt5 pb5" id="box1" ng-show="box1show">
+						<div class="app-view-bodybox">
+							<div class="app-view-body ">
+								<div class="app-lileft"><span>标题:</span></div>
+								<div class="app-liright"><input type="text" ng-model="pageTitle" ng-value="pageUrl" class="input" ></div>
+							</div>
+							<div class="app-view-body mt12">
+								<div class="app-lileft"><span>URL:</span></div>
+								<div class="app-liright"><input type="text" ng-model="msgUrl" ng-value="msgUrl" class="input" ></div>
+							</div>
+							<div class="app-view-body mt12">
+								<div class="app-lileft"><span>封面:</span></div>
+								<div class="app-liright"><label class="fileuploadinput"><img  src=""><input type="file" class="input" ></label></div>
+							</div>
+							<div class="app-view-body mt12">
+								<div class="app-lileft"><span>摘要:</span></div>
+								<div class="app-liright"><input type="text" ng-model="summary" ng-value="summary" class="input" ></div>
+							</div>
+						</div>
+					</div>
+					<div class="app-view-body bgffffff pt5 pb5" id="box2" ng-show="box2show">
+						<div class="app-view-bodybox">
+							<div class="app-view-body ">
+								<div class="app-lileft"><span>URL:</span></div>
+								<div class="app-liright"><input type="text" ng-model="pageUrl" ng-value="pageUrl" class="input" ></div>
+							</div>
+							<div class="app-view-body mt12">
+								<div class="app-lileft"><span>页面参数传递:</span></div>
+								<div class="app-liright"><label><input type="radio" ng-model="pageCanTransferParam" ng-change=pagepram('1') name="box2" checked>是</label>
+							<label><input type="radio" ng-model="pageCanTransferParam" ng-change=pagepram('0')  name="bpx2" ng-change=pagepram('0')>否</label></div>
+							</div>
+							
+						</div>
+					</div>
+					<div class="app-view-body bgffffff pt5 pb5" id="box3" ng-show="box3show">
+						<div class="app-view-bodybox">
+							<div class="app-view-body ">
+								<div class="app-lileft"><span>页面标题:</span></div>
+								<div class="app-liright"><input type="text" class="input" ng-model="pageTitle" ng-value="pageUrl" ></div>
+							</div>
+							<div class="app-view-body mt12">
+								<div class="app-lileft"><span>数据接口:</span></div>
+								<div class="app-liright"><input type="text" class="input" ng-model="dataInterface" ng-value="dataInterface"  ></div>
+							</div>
+							
+						</div>
+					</div>
+					<div class="app-view-body">
+					<div class="app-lileft"><span>消息参数传递<font class="colore51c23">*</font>:</span></div>
+						<div class="app-liright">
+							<label ng-click="msgCanTransferParam_c(1)"><input type="radio" name="pram" ng-model="msgCanTransferParam"  ng-checked="msgCanTransferParam_d(1)">是</label>
+							<label ng-click="msgCanTransferParam_c(0)"><input type="radio" name="pram" ng-model="msgCanTransferParam" ng-checked="msgCanTransferParam_d(0)">否</label>
+			
+						</div>
+					</div>
+					<div class="app-view-body">
+					<div class="app-lileft"><span>消息参数传递方式<font class="colore51c23">*</font>:</span></div>
+						<div class="app-liright">
+							<label ng-click="pramtype_c('directReference')"><input type="radio" name="pramtype" ng-model="pramtype"  ng-checked="pramtype_d('directReference')" >直接传递</label>
+							<label ng-click="pramtype_c('interfaceGet')"><input type="radio" name="pramtype"  ng-model="pramtype" ng-checked="pramtype_d('interfaceGet')" >接口获取</label>
+		
+						</div>
+					</div>
+					<div class="app-view-body">
+					<div class="app-lileft"><span>是否推送<font class="colore51c23">*</font>:</span></div>
+						<div class="app-liright">
+							<label ng-click="canPush_c(1)"><input type="radio" name="push" ng-model="canPush" ng-checked="canPush_d(1)"   >是</label>
+							<label ng-click="canPush_c(0)"><input type="radio" name="push" ng-model="canPush" ng-checked="canPush_d(0)" >否</label>
+
+						</div>
+					</div>
+				<div class="app-view-body">
+							<label class="input ml9 pl5 pr5 colore51c23">保存</label>
+							<label class="input ml9 pl5 pr5 colore51c23">取消</label>
+				</div>
+			</div>
+		</div>
+		<div class="left-1-4">
+			<div class="rightdemo" id="multi">
+				<div class="demoimg"><img src="images/appplugbg.jpg"></div>
+				<div class="pluglist"  id="tile">
+					<ul  class="tile__list">
+						<li name="sort" ng-repeat="p in apppluglist | filter:query | orderBy:p.sortNum" ng-draggable="true" ng-click="edit(p.pk)" ng-drag="_draggable" _pk="{{p.pk}}"><div class="plugimg" ><img ng-src="{{p.pluginIoc}}" ></div><input type="hidden" value="{{p.pk}}"><span>{{p.pluginName}}</span></li>
+					</ul>
+				</div>
+				<div class="demofootbut">
+					<span class="input ml9 pl5 pr5 colore51c23" ng-click="sor()">插件排序</span>
+				</div>    
+			</div>
+		</div>
+		<div class="app-view-foot">
+			<label ng-click="">发布</label>
+		</div>
+	</div>
+
+<div class="window" ng-if="window" model="pk">
+	<div class="window-bg" ng-click="cancel();hidetip();"></div>
+    <div class="window-middle t15p">
+    	<div class="window-title">
+            	<span class="title">插件库</span>
+                <span class="close">
+                   	<i class="icon-close icon-small pointer" ng-click="cancel();"></i>
+                </span>
+        </div>
+       
+        <div class="window-body ">
+        	<label class="copy-app-labeltable bgf4f4f4">
+        			<span class="left-1-5">插件名称</span>
+        		   	<span class="left-2-5">插件模式</span>
+        		   	<span class="left-2-5">插件类型</span></label>
+        	<label class="copy-app-labeltable" ng-repeat="p in apppluglist" ng-click="chose(p.pk)">
+				   	<span class="left-1-5"><input type="radio" name="copy" >{{p.pluginName}}</span>
+				   	<span class="left-2-5"><font  ng-if="p.pluginName=='pushMsg'">消息插件</font><font  ng-if="p.pluginName!='pushMsg'">模板插件</font></span>
+				   	<span class="left-2-5"><font ng-if="p.pluginType=='pushMsg'">发送消息</font><font ng-if="p.pluginType=='jumpPage'">跳转页面</font><font ng-if="p.pluginType=='jumpTemplate'">跳转模板页面</font></span>
+        	</label>
+  
+        </div>
+        <div class="window-footer tr">    <input type="hidden" ng-model="pk" ng-value="pk">        
+            	<button type="submit" ng-model="savepk" class="save mr10" ng-click="save();">复制</button>
+                <button  class="cancel mr10" ng-click="cancel();">取消</button>           
+        </div>
+
+    </div>
+</div>
+<div class="window" ng-show="window2">
+	<div class="window-bg" ng-click="cancel2()"></div>
+    <div class="window-small t15p">
+    	<div class="window-title">
+            	<span class="title">确定要删除吗？</span>
+                <span class="close">
+                   	<i class="icon-close icon-small pointer" ng-click="cancel2()"></i>
+                </span>
+        </div>
+        <div class="window-footer tr"> <input type="hidden" ng-model="delpk" ng-value="delpk">           
+            	<button  class="save mr10" ng-click="del()">确定</button>
+                <button  class="cancel mr10" ng-click="cancel2()">取消</button>           
+        </div>
+    </div>
+</div>

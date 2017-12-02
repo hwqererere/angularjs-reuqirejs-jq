@@ -1,0 +1,97 @@
+<div class="bgfaf9f9" ng-controller="template_Controller">
+	<div class="view-body-title">
+        <span class="title">模板管理</span>
+	</div>
+	<button class="op-div-but mt12" ng-click="window_add();openwindow()">
+			<i class="icon-add icon-small"></i>
+		    添加模板
+		</button>
+	<div class="view-body mt12" >
+		<div class="left-3-4">
+			<ul class="li-1 li-table"> 
+				<li>
+					<div class="th left-1-5"><span>模板名称</span></div>
+					<div class="th left-3-5"><span>模板字段</span></div>
+					<div class="th left-1-5"><span>操作</span></div>
+				</li>
+				<li ng-repeat="m in datalist">
+					<div class="td left-1-5"><span>{{m.templateName}}</span></div>
+					<div class="td left-3-5"><span>{{m.fieldNameStr}}</span></div>
+					<div class="td left-1-5"><span><i class="icon-edit icon-small" ng-click="edit(m.pk)"></i>&nbsp;&nbsp;<i class="icon-del icon-small" ng-click="openwindow2();getdel(m.pk);"></i></span></div>
+				</li>
+			</ul>
+			<div class="page mt12">
+			
+				<a ng-click="frash(prewPage)">上一页</>
+				<a ng-repeat="i in pageshow" ng-click="frash(i)" ng-class="pagesel(i)">{{i}}</a>
+				<a ng-click="frash(nextPage)">下一页</a>
+				<span>每页显示<select id="pagesize1" ng-model="pageSize" ng-init="pageSize = pageSizeSelect[0]" ng-change="changePageSize(pageSize)" ng-options="x for x in pageSizeSelect"></select></span>
+			
+			</div>
+
+		</div>
+		<div class="left-1-4">
+			<div class="templateManage-right-box">
+				<div class="title"><span class="title-left">{{t_templateName}}</span><span class="title-right color999999">样例</span></div>
+				<div class="templateManage-right-box-body">
+					<p >{{templateSummary}}</p>
+					<p ng-repeat="t in templateParams" >{{t.paramKey}}:{{t.paramValue}}</p>
+					
+				</div>
+				<div class="foot"><span class="colore51c23">查看详情</span></div>
+			</div>
+		</div>
+
+	</div>
+
+<div class="window" ng-if="window" model="pk">
+	<div class="window-bg" ng-click="cancel();hidetip();"></div>
+    <div class="window-middle t15p">
+    	<div class="window-title">
+            	<span class="title">{{window_title}}</span>
+                <span class="close">
+                   	<i class="icon-close icon-small pointer" ng-click="cancel();"></i>
+                </span>
+        </div>
+        <form>
+        <div class="window-body">
+        	<ul class="window-table">
+				<li><span>模板名称</span></li>
+				<li><input type="text" placeholder="模板名称" ng-model="$parent.templateName"  ng-value="$parent.templateName" /></li>
+			</ul>
+			<ul class="window-table">
+				<li><span>模板字段</span></li>
+				<li style="height:auto" id="templeteKey">
+					<div class="templet-addkey"  ng-repeat="k in keyword"><input type="text" ng-change="keychange($index,k.key)" ng-model="$parent.key[$index]"  ng-value="k.paramValue" style="width:200px;" ><i ng-if="redl($index)" ng-click="delkey($index)" class="icon-rdel  icon-middle mt6"></i></div>
+					
+					<div class="templet-addkey  pointer" ng-show="addkeylink" ><a class="colore51c23" ng-click="addkeyword()">增加关键字</a></div>
+				</li>
+			</ul>
+			<ul class="window-table">
+				<li><span>详情配置</span></li>
+				<li><select class="w200" ng-model="detail_Typelist" ng-init="detail_Typelist = detailTypelist[detail_Typelist_i]" ng-change="detailTypeSelect(detail_Typelist)" ng-options="m.title for m in detailTypelist"></select>
+				</li>
+        	</ul>
+        </div>
+        <div class="window-footer tr">    <input type="hidden" ng-model="pk" ng-value="pk">        
+            	<button type="submit"  class="save mr10" ng-click="save();">保存</button>
+                <button  class="cancel mr10" ng-click="cancel();">取消</button>           
+        </div>
+        </form>
+    </div>
+</div>
+<div class="window" ng-show="window2">
+	<div class="window-bg" ng-click="cancel2()"></div>
+    <div class="window-small t15p">
+    	<div class="window-title">
+            	<span class="title">确定要删除吗？</span>
+                <span class="close">
+                   	<i class="icon-close icon-small pointer" ng-click="cancel2()"></i>
+                </span>
+        </div>
+        <div class="window-footer tr"> <input type="hidden" ng-model="delpk" ng-value="delpk">           
+            	<button  class="save mr10" ng-click="del()">确定</button>
+                <button  class="cancel mr10" ng-click="cancel2()">取消</button>           
+        </div>
+    </div>
+</div>

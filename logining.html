@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>前端框架</title>
+
+</head>
+<body >
+
+登录中。。。
+
+<script src="js/jquery-2.1.1.js" ></script>
+<script type="text/javascript">
+var url="http://192.168.11.202:6926/test/logining.html?productPk=ff8080815fb54672015fc915271f0001&loginCode=MHIkwW0a3Ng9ZRdhPKEFs4vhXfrBPAQE&companyPk=ff8080815ab2be50015ab72d838802aa";
+
+function ajax(){
+  var da={};
+
+    da.companyPk=GetQueryString("companyPk");
+    da.loginCode=GetQueryString("loginCode");
+    da.productPk=GetQueryString("productPk");
+    sessionStorage.setItem("loginCode",GetQueryString("loginCode"));
+    sessionStorage.setItem("companyPk",GetQueryString("companyPk"));
+    sessionStorage.setItem("productPk",GetQueryString("productPk"));
+    $.ajax({  
+        type : "POST", 
+        url : "http://192.168.11.202:6060/plugin/pc/umpInterface/getUmpMenuList?loginCode="+GetQueryString("loginCode"),
+        data : JSON.stringify(da),  
+        async: false, 
+        contentType: "application/json",  
+        // dataType: "json",
+        crossDomain: true,
+        cache: false,  
+        success : function(result) {
+            console.log(result);
+            if(result.code=="S00000"){
+                var nav=new Array();
+                var j=0;
+                var dataResult=result.data.dataResult;
+                for(var i=0;i<dataResult.length;i++){
+                    if(dataResult[i].authorityType=="2"){
+                        nav[j]=dataResult[i];
+                        j++;
+                    }
+                }
+                sessionStorage.setItem("navdata",JSON.stringify(nav));
+                sessionStorage.setItem("operatorPk",JSON.stringify(result.data.operatorPk));
+                location.href="../index.html";
+                sessionStorage.setItem("operatorPk",result.data.operatorPk);
+            }
+        },error:function(XMLHttpRequest, textStatus, errorThrown){
+            alert(XMLHttpRequest.status);
+                        alert(XMLHttpRequest.readyState);
+                        alert(textStatus);
+            // resultoutput("error",infoshow);
+        }
+    });
+    // var sss={"data":{"operatorPk":"40288bbb5e9d0222015e9d296c4a0001","dataResult":[{"parentpk":"","buttons":[],"displayName":"test","authorityType":"1","url":"","pk":"ff8080815fb54672015fc9176cef0002"},{"parentpk":"ff8080815fb54672015fc9176cef0002","buttons":[],"displayName":"认证管理","authorityType":"2","url":"auth","pk":"ff8080815fb54672015fc91827780003"},{"parentpk":"ff8080815fb54672015fc9176cef0002","buttons":[],"displayName":"APP消息插件","authorityType":"2","url":"appPlugin","pk":"ff8080815fb54672015fc9190f9a0004"},{"parentpk":"ff8080815fb54672015fc9176cef0002","buttons":[],"displayName":"模版管理","authorityType":"2","url":"template","pk":"ff8080815fb54672015fc919bb790005"}]},"code":"S00000","msg":"成功"};
+    
+    // sessionStorage.setItem("logininfo",JSON.stringify(sss));
+}
+function GetQueryString(name){//url参数获取
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+ajax();
+</script>
+</body>
+</html>

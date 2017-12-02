@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>前端框架</title>
+    <link rel="stylesheet" href="css/common.css" type="text/css">
+    <link rel="stylesheet" href="css/main.css" type="text/css">
+    <base href="/" />
+</head>
+<body >
+<div class="alldom"  >
+    <div class="topbar">
+        <span class="logo"><a  src=""><img  src="images/logo.png"></a></span>
+        <div class="user-top-tip mr10">
+            <a><i class="icon-logout icon-small mr10"></i>退出</a>
+            <a><i class="icon-manage icon-small mr10"></i>忘记密码</a>
+            <a ui-sref='home'>管理员，您好！</a>
+        </div>
+    </div>
+    <div class="body">
+        <div class="left-nav-bar" ng-controller="navctrl">
+            <!--一级菜单-->
+            <div class="nav-bar-title">
+                <a class="tc" ng-click="navbarset()"><i class="more"></i></a>        
+                <ul >
+                    <li ng-repeat="item in navdata" ng-class="navselect($index,navsel,'nav')" ng-click="navselclick($index)"><a title="{{item.title}}" href="#/{{item.link}}" ><i class="{{item.icon}}"></i><span>{{item.title}}</span></a></li>                    
+                </ul>
+            </div>
+            <!--一级菜单 end-->
+            <!--二级菜单-->
+            
+            <!--二级菜单 end-->
+        </div>
+        <div id="inner" class="inner">
+            <div class="content" ui-view>
+                
+            </div>
+            <div class="innerfoot"></div>
+
+        </div>
+    </div>
+</div>
+
+
+<script src="js/lib/require211.js" defer async="true" data-main="js/main"></script>
+<script type="text/javascript">
+/*var app = angular.module('indexapp',['ui.router']);
+app.controller('indexctrl',function ($scope) {
+    var nav=new Array();
+    nav[0]={};
+    nav[0].id="0";
+    nav[0].title="知识认证";
+    nav[0].icon="icon-zs";
+    nav[0].link="Knowledge_authentication";
+    /*
+    二级菜单样例数据
+    nav[0].child=new Array();
+    nav[0].child[0]={};
+    nav[0].child[0].id="00";
+    nav[0].child[0].title="认证管理";
+    nav[0].child[0].link="/authManage";
+    nav[0].child[1]={};
+    nav[0].child[1].id="00";
+    nav[0].child[1].title="模板管理";
+    nav[0].child[1].link="/tempManage";
+    nav[1]={};
+    nav[1].id="0";
+    nav[1].title="监控管理";
+    nav[1].icon="jk";
+    nav[0].link="Knowledge_authentication";
+    /*
+    二级菜单代码
+    <div class="nav-bar-title-plug">
+                <div class="nav-bar-title-plug-title"><span>{{navplustitle}}</span></div>
+                <ul id="nav-bar-plus">
+                    <li ng-repeat="item in navdataplus" ng-class="navselect($index,navplusel,'navplus')" ><a href="{{item.link}}">{{item.title}}{{$index}}{{navplusel}}</a></li>
+                    
+                </ul>
+            </div>
+    
+    $scope.navsel=0;
+    $scope.navplustitle=nav[0].title;
+    $scope.navdata=nav;
+    $scope.navdataplus=nav[0].child;
+    $scope.navplusel=0;
+    $scope.navbarset=function(){
+        require(['jquery'], function ($){
+            if($(".nav-bar-title").hasClass("navshow")){
+                $(".nav-bar-title").removeClass("navshow");
+                $("#inner").removeClass("inner-navshow");
+                $("#inner").addClass("inner");
+            }else{
+                $(".nav-bar-title").addClass("navshow");
+                $("#inner").addClass("inner-navshow");
+                $("#inner").removeClass("inner");
+            }
+        });      
+    };
+    $scope.navselect=function(index,sel,type){
+        if(index==sel){
+            if(type=="nav"){
+                $scope.navsel=sel;
+                $scope.navdataplus=nav[sel].child;
+                return "current-bg";
+            }else if(type=="navplus"){
+                console.log(index+"|"+sel+"|"+type);
+                $scope.navplusel=sel;
+                return "current";
+            }
+            
+        }
+    };
+    $scope.navselclick=function(index){
+        $scope.navsel=index;
+    }
+
+});
+app.config(function ($stateProvider, $urlRouterProvider) {
+    $stateProvider
+        .state('home',{
+            url:'/home',
+            templateUrl:'include/home.html'
+        })
+        .state('home.list',{
+            url:'/list',
+            templateUrl:'html/homelist.html',
+            controller: function ($scope) {
+                $scope.homeArr=['liwudi','liguanjun','liyao']
+            }
+        })
+        .state('about',{
+            url:'/about',
+            templateUrl:'html/about.html'
+        })
+        .state('about.list',{
+            url:'/list',
+            templateUrl:'html/aboutlist.html',
+            controller: function ($scope) {
+                $scope.aboutArr=['小菜鸟','小小鸟','小小菜']
+            }
+        })
+})*/
+</script>
+</body>
+</html>

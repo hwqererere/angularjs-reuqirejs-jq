@@ -1,0 +1,208 @@
+<!DOCTYPE HTML>
+<html>
+<title>知识列表</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="user-scalable=no, width=device-width" />
+<link rel="stylesheet" href="css/mobile-common.css" type="text/css">
+<script type="text/javascript" src="js/jquery-2.1.1.js"></script>
+<body >
+<section class="searchbar"><form id="form_submit"><input type="text" id="searchval"/><input type="submit"></form></section>
+<section class="list" id="list">
+  
+	<!--<section class="li">
+      <section class="se-info">
+        <section class="se-img" style="background:url(image/aaa.png) center center;background-size:100% auto;">
+        </section>
+        <section class="se-word">
+          <section class="se-title">标题标题标题标题标题标题标题标题标标题标标题标题标题</section>
+          <section class="se-keyword">内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</section>
+        </section>
+      </section>
+      <section class="se-link"><a href="">查看详情</a></section>
+   </section>
+ -->
+   
+</section>
+<section class="opebg">
+</section>
+<section class="msgbox">
+  <section class="msgbox-title">发送给</section>
+  <section class="msgbox-body">访客12121212</section>
+  <section class="msgbox-infotitle">干货</section>
+  <section class="msgbox-but"><section class="sure">确定</section><section class="cancel">取消</section></section>
+</section>
+<script type="text/javascript">
+  var accessToken=getaccesstoken();
+var showsearch=GetQueryString("canSearch");
+if(showsearch=="1"){
+  
+}else{
+  $(".list").css("margin-top","-2em");
+  $(".searchbar").hide();
+}
+
+var host="http://192.168.11.202:6060";
+var page=1;
+var isLoading=false;
+var getList=function(){//获取列表
+	if(page==0){
+		return false;;
+	}else{
+    var da={};
+    da.pageIndex=page+"";
+    da.pageNum=10+"";
+    da.searchText=$("#searchval").val();
+    da.visitorId=GetQueryString("visitorId");
+    da.operatorId=GetQueryString("operatorId");
+    da.chatId=GetQueryString("chatId");
+    da.businessId=GetQueryString("businessId")?GetQueryString("businessId"):parseInt(Math.random()*1000000)+"";
+    var postda=JSON.stringify(da);
+    
+  	$.ajax({  
+      type : "POST", 
+      url : host+"/plugin_open/openPlatform/getTemplateDatas?accessToken="+accessToken,
+      data : postda,  
+      async: false, 
+      contentType: "application/json",  
+      dataType: "json",
+      crossDomain: true,
+      cache: false, 
+      success : function(result) {
+        if(result.code=="S00000"){
+          innerdata(result);
+        }                          
+      }  
+    });                  
+  }  
+}
+var screenHeight = window.screen.height;
+window.onscroll = function(e){//滚动监听
+  var bottom=$(".li:last").offset().top+$(".li:last").outerHeight();
+  var scrollTop=document.documentElement.scrollTop||document.body.scrollTop||0;
+  var windowHeight=document.documentElement.clientHeight||document.body.clientHeight||0;
+  if(scrollTop>=bottom-windowHeight){
+    getList(page);
+  }
+}
+getList(page);
+
+function innerdata(result){//写入页面
+  var data=result.data;
+  if(data.isNext=="true"){
+    page++;
+  }else{
+    page=0;
+  };
+  var content="";
+  var da=data.articles;
+
+  for(var i=0;i<da.length;i++){
+    content+='<section class="li"><section class="se-info" _coverUrl="'+da[i].picUrl+'" _msgUrl="'+da[i].url+'"><section class="se-img"  style="background:url('+da[i].picUrl+') center center;background-size:100% auto;"></section><section class="se-word"><section class="se-title">'+da[i].title+'</section><section class="se-keyword">'+da[i].summary+'</section></section></section><section class="se-link"><a href="'+da[i].url+'">查看详情</a></section></section>';
+
+  }
+  document.getElementById("list").innerHTML+=content;
+  $(".se-info").click(function(){//页面点击
+    var title=$(this).find(".se-title").html();
+    var keyword=$(this).find(".se-keyword").html();
+    var coverUrl=$(this).attr("_coverUrl");
+    var msgUrl=$(this).attr("_msgUrl");
+    $(".opebg").show();
+    $(".msgbox").show();
+    $(".msgbox-body").html("访客"+GetQueryString("visitorId"));
+    $(".msgbox-infotitle").html(title);
+    var da={};
+    da.accessToken=GetQueryString("accessToken");
+    da.operatorId=GetQueryString("operatorId");
+    da.chatId=GetQueryString("chatId");
+    da.visitorId=GetQueryString("visitorId");
+    da.pluginId=GetQueryString("pluginId");
+    da.businessId=GetQueryString("businessId")?GetQueryString("businessId"):parseInt(Math.random()*1000000)+"";
+    var art=new Array();
+    art[0]={};
+    art[0].title=title;
+    art[0].summary=keyword;
+    art[0].url=msgUrl;
+    art[0].picUrl=coverUrl;
+    var content={};
+    content.msgType="news";
+    content.articles=art;
+    da.content=content;
+    var json=JSON.stringify(da);
+    $(".sure").attr("_json",json);
+  });
+}
+
+
+
+
+
+$(".sure").click(function(){//提交
+  var json=$(".sure").attr("_json");
+  $.ajax({  
+      type : "POST", 
+      url : host+"/plugin_open/openPlatform/sendNewsMessage?accessToken="+accessToken,
+      data : json,  
+      async: false, 
+      contentType: "application/json",  
+      dataType: "json",
+      crossDomain: true,
+      cache: false, 
+      success : function(result) {
+            alert(result.msg);
+      }  
+    }); 
+  $(".opebg").hide();
+  $(".msgbox").hide();
+});
+
+$(".cancel").click(function(){//取消
+  $(".opebg").hide();
+  $(".msgbox").hide();
+});
+
+form_submit.onsubmit=function(){//搜索
+  document.getElementById("list").innerHTML="";
+  page=1;
+  getList(page);
+  return false;
+}
+
+function GetQueryString(name){//url参数获取
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+
+function getaccesstoken(){
+    var rt="";
+        var obj={};
+    obj.appId="123";
+    obj.appSecret="123456";
+
+    var sendmsg=JSON.stringify(obj); 
+  $.ajax({  
+        type : "POST", 
+        url : "http://192.168.11.202:6060/plugin_open/auth/getAccessToken",
+        data : sendmsg,  
+        async: false, 
+        contentType: "application/json",  
+        // dataType: "json",
+        crossDomain: true,
+        cache: false,  
+        success : function(result) {
+            rt=result.data.accessToken;
+        },error:function(XMLHttpRequest, textStatus, errorThrown){
+            setTimeout(function(){
+                getaccesstoken();
+            },30000);
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+            // resultoutput("error",infoshow);
+        }
+    });  
+    return rt; 
+}
+</script>
+</body>
+</html>
